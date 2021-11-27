@@ -1,0 +1,44 @@
+<html>
+<head></head>
+<body>
+  <style>
+    *{padding:0;margin:0;}
+    div{display: flex;align-items: center; justify-content: space-around;}
+    body{display: flex;flex-direction: column;width: 100%; height: auto;align-items: center; justify-content: space-around;}
+    .header{width: 80%; height: 15vh; display: flex;}
+    .icon{min-width: 15vh;min-height: 15vh;}
+    .search{width: 80vw; height: 7vh;}
+    .search>form{width: 100%;}
+    .search>form>input[type="text"]{width: 80%;}
+    .search>form>input[type="submit"]{width: 20%;}
+    .results{width: 80vw; height: 60vh; align-items: center;justify-content: space-between}
+    .result{width: 47%; height: 100%; background-color: #C4c4c4; display: block;}
+    .result>a{width: 100%; display: block;}
+    .button{width: 60%; flex-direction: column;}
+    .button>div{width: 100%; height: auto; background-color: #C4c4c4; margin: 1vmin;}
+    .icon>img{width: 15vmin; height: 15vmin;}
+
+  </style>
+  <div class="header">
+    <div class="icon">
+      <img src="https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars.png" alt="">
+    </div>
+    <div class="button">
+      <div>Аккаунт</div>
+      <div>Меню</div>
+    </div>
+    <div class="icon"><img src="https://catherineasquithgallery.com/uploads/posts/2021-03/1614560288_6-p-ikonki-na-belom-fone-6.jpg" alt=""></div>
+  </div>
+  <div class="search">
+    <form action="#" method="get"><input type="text" name="search" id="search" value="Searchingss..."><input type="submit" value="Search"></form>
+  </div>
+  <div class="results">
+    <div class="result">
+      <a href="">some file</a><a href="">some file</a><a href="">some file</a><a href="">some file</a><a href="">some file</a><a href="">some file</a>
+    </div>
+    <div class="result">
+      <p><span>some file</span> - <span>text1</span></p><p><span>some file</span> - <span>text1</span></p><p><span>some file</span> - <span>text1</span></p><p><span>some file</span> - <span>text1</span></p><p><span>some file</span> - <span>text1</span></p>
+    </div>
+  </div>
+</body>
+</html>
