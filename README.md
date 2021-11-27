@@ -25,3 +25,5 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+[Figma](https://www.figma.com/file/22yG5sAoOG59WtGqt8A21x/CRM?node-id=0%3A1)
