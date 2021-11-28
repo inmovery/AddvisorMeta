@@ -10,35 +10,40 @@ using DotComServer.Domain.DTOs;
 using DotComServer.Domain.Entities;
 using DotComServer.Domain.Services;
 using NPOI.HSSF.UserModel;
+using NPOI.POIFS.FileSystem;
+using NPOI.POIFS.Storage;
 using NPOI.SS.Formula.Functions;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using NPOI.XWPF.UserModel;
+using Syncfusion.DocIO.DLS;
+using Syncfusion.Presentation;
 using ICell = NPOI.XWPF.UserModel.ICell;
+using FormatType = Syncfusion.DocIO.FormatType;
+using IShape = Syncfusion.Presentation.IShape;
 
 namespace DotComServer.Business
 {
 	public class GlobalSearch
 	{
-		private readonly IDocxFileService _docxFileService;
+		private readonly IDocumentsFileService _documentsFileService;
 
 		private readonly string _filename;
 		private readonly XWPFDocument _docWrite = new();
 
 		private string _lastFileName = string.Empty;
 
-		public GlobalSearch(IDocxFileService docxFileService)
+		public GlobalSearch(IDocumentsFileService documentsFileService)
 		{
-			_docxFileService = docxFileService;
+			_documentsFileService = documentsFileService;
 
 			_docWrite.GetProperties().CoreProperties.Creator = string.Empty;
 			_filename = string.Empty;
 		}
 
-		public SearchResultDto DoSearch(string searchableContent, int id)
+		public SearchResultDto DoSearch(string searchableContent, int id = default)
 		{
 			var searchMatchList = new List<SearchMatch>();
-
 			var (documentData, extension) = ReadDocuments(id);
 
 			switch (extension)
@@ -51,8 +56,24 @@ namespace DotComServer.Business
 
 				case "doc":
 				case "docs":
+				case "dot":
+				case "docm":
+				case "dotx":
+				case "rtf":
 					var wordDocument = documentData as List<string>;
 					searchMatchList = ParseWordDocument(wordDocument, searchableContent);
+					break;
+
+				case "ppt":
+				case "pptx":
+				case "pptm":
+				case "potx":
+				case "potm":
+					var powerPointDocument = documentData as IPresentation;
+					searchMatchList = ParsePowerPointDocument(powerPointDocument, searchableContent);
+					break;
+
+				case "pdf":
 					break;
 
 				default:
@@ -84,7 +105,7 @@ namespace DotComServer.Business
 				if (!docxLines[rowIndex].Contains(searchableContent))
 					continue;
 
-				var searchMatch = new SearchMatch(rowIndex + 1, docxLines[rowIndex]);
+				var searchMatch = new SearchMatch(rowIndex + 1, docxLines[rowIndex], false);
 				searchMatchList.Add(searchMatch);
 			}
 
@@ -114,22 +135,36 @@ namespace DotComServer.Business
 			return searchMatchList;
 		}
 
-		private (object, string) ReadDocuments(int id)
+		private List<SearchMatch> ParsePowerPointDocument(IPresentation presentation, string searchableContent)
 		{
-			var data = new object();
+			var searchMatchList = new List<SearchMatch>();
 
-			var documents = id == -1 ? _docxFileService.Get() : new List<DocxFileDto>() { _docxFileService.Get(id) };
-
-			foreach (var document in documents)
+			var resultContent = new StringBuilder();
+			foreach (var slide in presentation.Slides)
 			{
+				foreach (var slideItem in slide.Shapes)
+				{
+					var shape = (IShape)slideItem;
 
+					// Check whether the shape is an auto-shape. Other types can be charts, tables or SmartArt diagrams.
+					if (shape.SlideItemType == SlideItemType.AutoShape)
+						resultContent.Append(shape.TextBody.Text);
+				}
 			}
 
-			var fileData = _docxFileService.Get(id);
+			return searchMatchList;
+		}
+
+		private (object, string) ReadDocuments(int id)
+		{
+			object data;
+
+			var document = new List<DocumentFileDto>() { _documentsFileService.Get(id) };
+
+			var fileData = _documentsFileService.Get(id);
 			var fileContent = fileData.FileContent;
 			var fileExtension = Path.GetExtension(fileData.Filename)?.Replace(".", "");
 
-			// By filename - File.OpenRead(_filename)
 			var fileContentStream = new MemoryStream();
 			fileContentStream.Write(fileContent, 0, fileContent.Length);
 			fileContentStream.Position = 0;
@@ -142,13 +177,11 @@ namespace DotComServer.Business
 			return (data, fileExtension);
 		}
 
-		private List<DataTable> ConfigureExcelDocument(IWorkbook workbook)
+		private List<DataTable> ConfigureExcelDocument(IWorkbook workbook = default)
 		{
-			var allRowList = new List<string>();
 			var dataTables = new List<DataTable>();
-			var rowList = new List<string>();
 
-			for (var sheetIndex = 0; sheetIndex < workbook.NumberOfSheets; sheetIndex++)
+			for (var sheetIndex = 0; sheetIndex < workbook?.NumberOfSheets; sheetIndex++)
 			{
 				var dataTable = new DataTable();
 				dataTable.Rows.Clear();
@@ -157,13 +190,12 @@ namespace DotComServer.Business
 				dataTables.Add(dataTable);
 			}
 
-			for (var sheetIndex = 0; sheetIndex < workbook.NumberOfSheets; sheetIndex++)
+			for (var sheetIndex = 0; sheetIndex < workbook?.NumberOfSheets; sheetIndex++)
 			{
 				var sheet = workbook.GetSheetAt(sheetIndex);
 				var headerRow = sheet.GetRow(0);
 				int columnsCount = headerRow.LastCellNum;
 
-				// Need necessary columns
 				for (var cellIndex = 0; cellIndex < columnsCount; cellIndex++)
 				{
 					var cell = headerRow.GetCell(cellIndex);
@@ -176,7 +208,7 @@ namespace DotComServer.Business
 					}
 					catch (DuplicateNameException)
 					{
-						continue;
+						// ignored
 					}
 				}
 
@@ -213,51 +245,6 @@ namespace DotComServer.Business
 					rowIndex++;
 					currentRow = sheet.GetRow(rowIndex);
 				}
-
-				//for (var rowIndex = (sheet.FirstRowNum + 1); rowIndex <= sheet.LastRowNum; rowIndex++)
-				//{
-				//	var row = sheet.GetRow(rowIndex);
-				//	if (row == null)
-				//		continue;
-
-				//	if (row.Cells.All(d => d.CellType == CellType.Blank))
-				//		continue;
-
-				//	var dataRow = dataTables[sheetIndex].NewRow();
-				//	for (var cellIndex = row.FirstCellNum; cellIndex < cellCount; cellIndex++)
-				//	{
-				//		var cell = row.GetCell(cellIndex);
-				//		if (cell == null)
-				//			continue;
-
-				//		//var isCellEmpty = string.IsNullOrEmpty(cell.ToString());
-				//		//var isCellConsistsFromWhiteSpaces = string.IsNullOrWhiteSpace(cell.ToString());
-
-				//		//if (!isCellEmpty && !isCellConsistsFromWhiteSpaces)
-				//		//	rowList.Add(cell.ToString());
-
-				//		switch (cell.CellType)
-				//		{
-				//			case CellType.Numeric:
-				//				dataRow[cellIndex] = DateUtil.IsCellDateFormatted(cell)
-				//					? cell.DateCellValue.ToString(CultureInfo.InvariantCulture)
-				//					: cell.NumericCellValue.ToString(CultureInfo.InvariantCulture);
-				//				break;
-				//			case CellType.String:
-				//				dataRow[cellIndex] = cell.StringCellValue;
-				//				break;
-				//			case CellType.Blank:
-				//				dataRow[cellIndex] = string.Empty;
-				//				break;
-				//		}
-				//	}
-
-				//	allRowList.AddRange(rowList);
-				//	if (rowList.Count > 0)
-				//		dataTables[sheetIndex].Rows.Add(dataRow);
-
-				//	rowList.Clear();
-				//}
 			}
 
 			return dataTables;
@@ -285,14 +272,23 @@ namespace DotComServer.Business
 			return lines;
 		}
 
+		private IPresentation ConfigurePowerPointDocument(Stream fileContentStream)
+		{
+			var powerPointDocument = Presentation.Open(fileContentStream);
+
+			return powerPointDocument;
+		}
+
 		private object ConfigureContent(Stream fileContentStream, string fileExtension)
 		{
-			var results = new List<string>();
-			var dataTables = new List<DataTable>();
 			switch (fileExtension)
 			{
 				case "doc":
-				case "docx":
+				case "docs":
+				case "dot":
+				case "docm":
+				case "dotx":
+				case "rtf":
 					return ConfigureWordDocument(fileContentStream);
 
 				case "xls":
@@ -302,6 +298,17 @@ namespace DotComServer.Business
 				case "xlsx":
 					var xssWorkbook = new XSSFWorkbook(fileContentStream);
 					return ConfigureExcelDocument(xssWorkbook);
+
+				case "ppt":
+				case "pptx":
+				case "pptm":
+				case "potx":
+				case "potm":
+					return ConfigurePowerPointDocument(fileContentStream);
+
+				case "pdf":
+					return new object();
+
 				default:
 					return new object();
 			}

@@ -26,8 +26,8 @@ namespace DotComServer
 
 			var connectionString = Configuration.GetConnectionString("ApplicationDbConnection");
 			services.AddDbContext<DocxDbContext>(options => options.UseSqlServer(connectionString));
-			services.AddTransient<IDocxFileRepository, DocxFileRepository>();
-			services.AddTransient<IDocxFileService, DocxFileService>();
+			services.AddTransient<IDocumentsFileRepository, DocumentsFileRepository>();
+			services.AddTransient<IDocumentsFileService, DocumentsFileService>();
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

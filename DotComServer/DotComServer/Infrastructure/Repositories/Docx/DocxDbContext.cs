@@ -11,6 +11,6 @@ namespace DotComServer.Infrastructure.Repositories.Docx
 			Database.EnsureCreated();
 		}
 
-		public DbSet<DocxFile> DocxFiles { get; set; }
+		public DbSet<DocumentFile> Documents { get; set; }
 	}
 }
