@@ -8,13 +8,13 @@ namespace DotComServer.Infrastructure.Repositories.Docx
 {
 	public class DocumentsFileRepository : IDocumentsFileRepository
 	{
-		private readonly DocxDbContext _docxDbContext;
+		private readonly DocumentsDbContext _docxDbContext;
 
 		public DocumentsFileRepository()
 		{
 		}
 
-		public DocumentsFileRepository(DocxDbContext docxDbContext)
+		public DocumentsFileRepository(DocumentsDbContext docxDbContext)
 		{
 			_docxDbContext = docxDbContext ?? throw new ArgumentNullException(nameof(docxDbContext));
 		}

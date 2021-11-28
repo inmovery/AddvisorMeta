@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "+9mtBx0DFVaMJft2huGpcG259DLOCCmbjHC1EUXVvVcDyuis8Rr1cT50JreBqLUeExgfJ8mmUS3oxAoh5Nhh+Q==",
+  "dgSpecHash": "RM6Q18Qt/whg/rAuUFvM1FuGAKEA65z0JLrn1xXs5yk+KEO4JAGa9wgVDdO2wWe00q35pq+kgZk1Bfsbw0gw8A==",
   "success": true,
-  "projectFilePath": "C:\\Users\\inmovery\\source\\repos\\DotComServer\\DotComServer\\DotComServer.csproj",
+  "projectFilePath": "C:\\hack\\dotcom\\DotComServer\\DotComServer\\DotComServer.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\inmovery\\.nuget\\packages\\dotnetcore.npoi\\1.2.3\\dotnetcore.npoi.1.2.3.nupkg.sha512",
     "C:\\Users\\inmovery\\.nuget\\packages\\dotnetcore.npoi.core\\1.2.3\\dotnetcore.npoi.core.1.2.3.nupkg.sha512",

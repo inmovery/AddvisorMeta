@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DotComServer.Infrastructure.Repositories.Docx
 {
-	public sealed class DocxDbContext : DbContext
+	public sealed class DocumentsDbContext : DbContext
 	{
-		public DocxDbContext(DbContextOptions options)
+		public DocumentsDbContext(DbContextOptions options)
 			: base(options)
 		{
 			Database.EnsureCreated();

@@ -139,16 +139,22 @@ namespace DotComServer.Business
 		{
 			var searchMatchList = new List<SearchMatch>();
 
-			var resultContent = new StringBuilder();
 			foreach (var slide in presentation.Slides)
 			{
 				foreach (var slideItem in slide.Shapes)
 				{
 					var shape = (IShape)slideItem;
+					var slideTextContent = string.Empty;
 
 					// Check whether the shape is an auto-shape. Other types can be charts, tables or SmartArt diagrams.
 					if (shape.SlideItemType == SlideItemType.AutoShape)
-						resultContent.Append(shape.TextBody.Text);
+						slideTextContent = shape.TextBody.Text;
+
+					if (!slideTextContent.Contains(searchableContent))
+						continue;
+
+					var searchMatch = new SearchMatch(slide.SlideNumber, slideTextContent, true);
+					searchMatchList.Add(searchMatch);
 				}
 			}
 
