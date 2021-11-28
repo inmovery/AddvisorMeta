@@ -1,7 +1,7 @@
 ﻿using DotComServer.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace DotComServer.Infrastructure.Repositories.Docx
+namespace DotComServer.Infrastructure.Repositories.Documents
 {
 	public sealed class DocumentsDbContext : DbContext
 	{

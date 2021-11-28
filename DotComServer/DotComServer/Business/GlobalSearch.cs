@@ -41,43 +41,50 @@ namespace DotComServer.Business
 			_filename = string.Empty;
 		}
 
-		public SearchResultDto DoSearch(string searchableContent, int id = default)
+		public SearchResultDto DoSearch(SearchParams searchParams, int countFiles)
 		{
 			var searchMatchList = new List<SearchMatch>();
-			var (documentData, extension) = ReadDocuments(id);
 
-			switch (extension)
+			for (var fileNumber = 1; fileNumber <= countFiles; fileNumber++)
 			{
-				case "xls":
-				case "xlsx":
-					var excelDocument = documentData as List<DataTable>;
-					searchMatchList = ParseExcelDocument(excelDocument, searchableContent);
-					break;
+				var (documentData, extension, filename) = ReadDocuments(fileNumber);
 
-				case "doc":
-				case "docs":
-				case "dot":
-				case "docm":
-				case "dotx":
-				case "rtf":
-					var wordDocument = documentData as List<string>;
-					searchMatchList = ParseWordDocument(wordDocument, searchableContent);
-					break;
+				switch (extension)
+				{
+					case "xls":
+					case "xlsx":
+						var excelDocument = documentData as List<DataTable>;
+						var excelMatchResults = ParseExcelDocument(excelDocument, searchParams.SearchableContent, filename);
+						searchMatchList.AddRange(excelMatchResults);
+						break;
 
-				case "ppt":
-				case "pptx":
-				case "pptm":
-				case "potx":
-				case "potm":
-					var powerPointDocument = documentData as IPresentation;
-					searchMatchList = ParsePowerPointDocument(powerPointDocument, searchableContent);
-					break;
+					case "doc":
+					case "docx":
+					case "dot":
+					case "docm":
+					case "dotx":
+					case "rtf":
+						var wordDocument = documentData as List<string>;
+						var wordMatchResults = ParseWordDocument(wordDocument, searchParams.SearchableContent, filename);
+						searchMatchList.AddRange(wordMatchResults);
+						break;
 
-				case "pdf":
-					break;
+					case "ppt":
+					case "pptx":
+					case "pptm":
+					case "potx":
+					case "potm":
+						var powerPointDocument = documentData as IPresentation;
+						var matchResults = ParsePowerPointDocument(powerPointDocument, searchParams.SearchableContent, filename);
+						searchMatchList.AddRange(matchResults);
+						break;
 
-				default:
-					break;
+					case "pdf":
+						break;
+
+					default:
+						break;
+				}
 			}
 
 			var searchResultDto = new SearchResultDto()
@@ -88,7 +95,7 @@ namespace DotComServer.Business
 			return searchResultDto;
 		}
 
-		private List<SearchMatch> ParseWordDocument(List<string> lines, string searchableContent)
+		private List<SearchMatch> ParseWordDocument(List<string> lines, string searchableContent, string filename)
 		{
 			var searchMatchList = new List<SearchMatch>();
 
@@ -105,14 +112,14 @@ namespace DotComServer.Business
 				if (!docxLines[rowIndex].Contains(searchableContent))
 					continue;
 
-				var searchMatch = new SearchMatch(rowIndex + 1, docxLines[rowIndex], false);
+				var searchMatch = new SearchMatch(rowIndex + 1, docxLines[rowIndex], false, filename, "Word");
 				searchMatchList.Add(searchMatch);
 			}
 
 			return searchMatchList;
 		}
 
-		private List<SearchMatch> ParseExcelDocument(List<DataTable> tables, string searchableContent)
+		private List<SearchMatch> ParseExcelDocument(List<DataTable> tables, string searchableContent, string filename)
 		{
 			var searchMatchList = new List<SearchMatch>();
 			for (var sheetIndex = 0; sheetIndex < tables.Count; sheetIndex++)
@@ -126,7 +133,7 @@ namespace DotComServer.Business
 						if (!cellContent.Contains(searchableContent))
 							continue;
 
-						var searchMatch = new SearchMatch(sheetIndex, rowIndex + 1, columnIndex + 1, cellContent);
+						var searchMatch = new SearchMatch(sheetIndex, rowIndex + 1, columnIndex + 1, cellContent, filename, "Excel");
 						searchMatchList.Add(searchMatch);
 					}
 				}
@@ -135,7 +142,7 @@ namespace DotComServer.Business
 			return searchMatchList;
 		}
 
-		private List<SearchMatch> ParsePowerPointDocument(IPresentation presentation, string searchableContent)
+		private List<SearchMatch> ParsePowerPointDocument(IPresentation presentation, string searchableContent, string filename)
 		{
 			var searchMatchList = new List<SearchMatch>();
 
@@ -147,13 +154,15 @@ namespace DotComServer.Business
 					var slideTextContent = string.Empty;
 
 					// Check whether the shape is an auto-shape. Other types can be charts, tables or SmartArt diagrams.
-					if (shape.SlideItemType == SlideItemType.AutoShape)
-						slideTextContent = shape.TextBody.Text;
+					//if (shape.SlideItemType == SlideItemType.AutoShape)
+					//	slideTextContent = shape.TextBody.Text;
 
-					if (!slideTextContent.Contains(searchableContent))
+					slideTextContent = shape?.TextBody?.Text;
+
+					if (!(slideTextContent ?? string.Empty).Contains(searchableContent))
 						continue;
 
-					var searchMatch = new SearchMatch(slide.SlideNumber, slideTextContent, true);
+					var searchMatch = new SearchMatch(slide.SlideNumber, slideTextContent, true, filename, "PowerPoint");
 					searchMatchList.Add(searchMatch);
 				}
 			}
@@ -161,7 +170,7 @@ namespace DotComServer.Business
 			return searchMatchList;
 		}
 
-		private (object, string) ReadDocuments(int id)
+		private (object, string, string) ReadDocuments(int id)
 		{
 			object data;
 
@@ -180,7 +189,7 @@ namespace DotComServer.Business
 				data = ConfigureContent(fileContentStream, fileExtension);
 			}
 
-			return (data, fileExtension);
+			return (data, fileExtension, fileData.Filename);
 		}
 
 		private List<DataTable> ConfigureExcelDocument(IWorkbook workbook = default)
@@ -290,7 +299,7 @@ namespace DotComServer.Business
 			switch (fileExtension)
 			{
 				case "doc":
-				case "docs":
+				case "docx":
 				case "dot":
 				case "docm":
 				case "dotx":

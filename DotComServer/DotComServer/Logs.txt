@@ -106,3 +106,147 @@ Content root path: C:\Users\inmovery\source\repos\DotComServer\DotComServer
 Application started. Press Ctrl+C to shut down.
 Hosting environment: Development
 Content root path: C:\Users\inmovery\source\repos\DotComServer\DotComServer
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\hack\dotcom\DotComServer\DotComServer
+Failed executing DbCommand (31ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [d].[Id], [d].[FileContent], [d].[Filename], [d].[Size]
+FROM [Documents] AS [d]
+WHERE [d].[Id] = @__p_0
+An exception occurred while iterating over the results of a query for context type 'DotComServer.Infrastructure.Repositories.Docx.DocumentsDbContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Недопустимое имя объекта "Documents".
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.InitializeReader(DbContext _, Boolean result)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+ClientConnectionId:ad16bb14-a8af-418a-a519-87057bd5c22b
+Error Number:208,State:1,Class:16
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\hack\dotcom\DotComServer\DotComServer
+Failed executing DbCommand (23ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [d].[Id], [d].[FileContent], [d].[Filename], [d].[Size]
+FROM [Documents] AS [d]
+WHERE [d].[Id] = @__p_0
+An exception occurred while iterating over the results of a query for context type 'DotComServer.Infrastructure.Repositories.Docx.DocumentsDbContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Недопустимое имя объекта "Documents".
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.InitializeReader(DbContext _, Boolean result)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+ClientConnectionId:4dabf9d6-9597-4289-8c8d-9068af41f4f2
+Error Number:208,State:1,Class:16
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\hack\dotcom\DotComServer\DotComServer
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\hack\dotcom\DotComServer\DotComServer
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\hack\dotcom\DotComServer\DotComServer
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\hack\dotcom\DotComServer\DotComServer
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\hack\dotcom\DotComServer\DotComServer
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\hack\dotcom\DotComServer\DotComServer
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\hack\dotcom\DotComServer\DotComServer
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\hack\dotcom\DotComServer\DotComServer
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\hack\dotcom\DotComServer\DotComServer
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\hack\dotcom\DotComServer\DotComServer
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\hack\dotcom\DotComServer\DotComServer
+Failed executing DbCommand (42ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [d].[Id], [d].[FileContent], [d].[Filename], [d].[Size]
+FROM [Documents] AS [d]
+WHERE [d].[Id] = @__p_0
+An exception occurred while iterating over the results of a query for context type 'DotComServer.Infrastructure.Repositories.Documents.DocumentsDbContext'.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Недопустимое имя объекта "Documents".
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.InitializeReader(DbContext _, Boolean result)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+ClientConnectionId:6192eee1-a937-4f11-afbf-9a23659fcd31
+Error Number:208,State:1,Class:16
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\hack\dotcom\DotComServer\DotComServer
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\hack\dotcom\DotComServer\DotComServer
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\hack\dotcom\DotComServer\DotComServer
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\hack\dotcom\DotComServer\DotComServer
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\hack\dotcom\DotComServer\DotComServer
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\hack\dotcom\DotComServer\DotComServer
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\hack\dotcom\DotComServer\DotComServer
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\hack\dotcom\DotComServer\DotComServer
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\hack\dotcom\DotComServer\DotComServer
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\hack\dotcom\DotComServer\DotComServer

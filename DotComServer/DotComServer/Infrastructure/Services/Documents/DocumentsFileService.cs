@@ -8,7 +8,7 @@ using DotComServer.Domain.Repositories;
 using DotComServer.Domain.Services;
 using Microsoft.AspNetCore.Http;
 
-namespace DotComServer.Infrastructure.Services.Docx
+namespace DotComServer.Infrastructure.Services.Documents
 {
 	public class DocumentsFileService : IDocumentsFileService
 	{
@@ -21,9 +21,9 @@ namespace DotComServer.Infrastructure.Services.Docx
 
 		public int FilesCount => _fileRepository.FilesCount;
 
-		public void Add(List<IFormFile> docxFiles)
+		public void Add(List<IFormFile> documents)
 		{
-			foreach (var file in docxFiles)
+			foreach (var file in documents)
 			{
 				using MemoryStream memoryStream = new();
 				file.OpenReadStream().CopyTo(memoryStream);
@@ -51,17 +51,17 @@ namespace DotComServer.Infrastructure.Services.Docx
 
 		public DocumentFileDto Get(int id)
 		{
-			var docxFile = _fileRepository.Get(id);
+			var documentFile = _fileRepository.Get(id);
 
-			var docxFileDto = new DocumentFileDto
+			var documentFileDto = new DocumentFileDto
 			{
-				FileContent = Convert.FromBase64String(docxFile.FileContent),
-				Filename = docxFile.Filename,
-				Id = docxFile.Id,
-				Size = docxFile.Size
+				FileContent = Convert.FromBase64String(documentFile.FileContent),
+				Filename = documentFile.Filename,
+				Id = documentFile.Id,
+				Size = documentFile.Size
 			};
 
-			return docxFileDto;
+			return documentFileDto;
 		}
 
 		public void Remove(int id)

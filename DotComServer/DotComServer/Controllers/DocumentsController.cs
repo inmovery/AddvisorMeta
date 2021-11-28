@@ -36,8 +36,8 @@ namespace DotComServer.Controllers
 		[HttpGet("{id}")]
 		public ActionResult Get(int id)
 		{
-			var docxFileDto = _documentsFileService.Get(id);
-			return File(docxFileDto.FileContent, MediaTypeNames.Application.Octet, docxFileDto.Filename);
+			var documentFileDto = _documentsFileService.Get(id);
+			return File(documentFileDto.FileContent, MediaTypeNames.Application.Octet, documentFileDto.Filename);
 		}
 
 		[HttpPost, DisableRequestSizeLimit]

@@ -6,7 +6,7 @@ namespace DotComServer.Domain.Services
 {
 	public interface IDocumentsFileService
 	{
-		void Add(List<IFormFile> docxFiles);
+		void Add(List<IFormFile> documents);
 		void Remove(int id);
 		List<DocumentFileDto> Get();
 		DocumentFileDto Get(int id);

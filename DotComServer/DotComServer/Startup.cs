@@ -1,7 +1,7 @@
 using DotComServer.Domain.Repositories;
 using DotComServer.Domain.Services;
-using DotComServer.Infrastructure.Repositories.Docx;
-using DotComServer.Infrastructure.Services.Docx;
+using DotComServer.Infrastructure.Repositories.Documents;
+using DotComServer.Infrastructure.Services.Documents;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +23,11 @@ namespace DotComServer
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllers();
+
+			services.Configure<IISServerOptions>(options =>
+			{
+				options.AllowSynchronousIO = true;
+			});
 
 			var connectionString = Configuration.GetConnectionString("ApplicationDbConnection");
 			services.AddDbContext<DocumentsDbContext>(options => options.UseSqlServer(connectionString));
